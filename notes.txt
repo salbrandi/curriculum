@@ -1,0 +1,13 @@
+<p> = paragraph
+<head> gives meta datam, like encoding! and the title
+<title> gives title
+<body> is where the text goes
+<html> is the root element
+<h1-6> are heading tags
+<a href> is the link tag
+<img> is the image tag
+<form> is for user input
+<input> is for readign differetn kinds of inpu. It has values and types.
+Why are ther classes and IDS?
+box model?
+
