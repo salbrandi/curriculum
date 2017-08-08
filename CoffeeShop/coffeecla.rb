@@ -114,9 +114,16 @@ Shop.get_menu.each do |price, item|
         print "   Pickup   Delivery   "
         acquire_type = gets.chomp.downcase
         if acquire_type == 'delivery'
-          # Left off here!
+          print "Ok, then we'll need your address:  "
+          addr = gets.chomp
+          puts "Finally, we'll need some payment info. Could you please enter the following: card-number/expiration-date/card-holder-name/security-code"
+          cardinfo = gets.chomp.split('/')
+          puts "Everything looks good. If the payment is successfull, you order will be ready for #{acquire_type} in a few minutes at the location #{addr}"
         elsif acquire_type == 'pickup'
-          # Left off here!
+          addr = '221 North Street'
+          puts "Finally, we'll need some payment info. Could you please enter the following: card-number/expiration-date/card-holder-name/security-code"
+          cardinfo = gets.chomp.split('/')
+          puts "Everything looks good. If the payment is successfull, you order will be ready for #{acquire_type} in a few minutes at the location #{addr}"
         else exit
         end
       end
