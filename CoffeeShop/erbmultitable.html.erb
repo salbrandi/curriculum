@@ -1,0 +1,96 @@
+require 'erb'
+require 'date'
+
+
+range = (1..12)
+tablex = []
+tabley = []
+range.each { |n| tablex << n }
+tablex.each { |n| tabley << n }
+
+li_of_li = []
+
+tablex.each do |n|
+  lili_table = []
+  tabley.each do |i|
+    lili_table << n*i
+  end
+  li_of_li << lili_table
+end
+
+puts 'please enter a month number for the calendar page'
+month_num = gets.chomp.to_i
+month_begin = Date.new(Date.today.year, month_num)
+month_end = Date.new(Date.today.year, month_num, -1)
+month_begin.strftime('%a')
+days_in_mo = month_end.day
+weekdays_list = %w(Mon Tues Wed Thurs Fri Sat Sun)
+weeks_in_mo = [1, 2, 3, 4]
+
+
+
+calendar_plate = "
+                <!DOCTYPE html>
+                <html>
+                  <body>
+                   Month Calendar Table:
+                   <table>
+                     <tr>
+                       <% for weekday in weekdays_list %>
+                       <th>
+                         <%= weekday %>
+                       </th>
+                       <% end %>
+                     </tr>
+                     <% for num in weeks_in_mo %>
+                     <tr>
+                     <% for daynum in (1..days_in_mo).to_a %>
+                     <td style='padding: 5px; border: 1px solid black; text-align: center'>
+                       <%= daynum %>
+                     </td>
+
+                     <% end %>
+                     </tr>
+                     <% end %>
+
+                  </table>
+                  </body>
+                </html>
+                  "
+
+
+
+
+times_table_plate = "
+                <!DOCTYPE html>
+                <html>
+                  <body>
+                   Multiplication facts table:
+                   <table>
+                     <% for item in li_of_li %>
+                     <tr>
+                     <% for num in item %>
+                     <td style='padding: 5px; border: 1px solid black; text-align: center'>
+                       <%= num %>
+                     </td>
+
+                     <% end %>
+                     </tr>
+                     <% end %>
+
+                  </table>
+                  </body>
+                </html>
+                  "
+
+
+
+
+renderer = ERB.new(times_table_plate, nil, trim_mode='-')
+renderer2 = ERB.new(calendar_plate, nil, trim_mode='-')
+File.open('xtable12.html', 'w') do |f|
+ f.write renderer.result(binding)
+end
+File.open('calendar.html', 'w') do |f|
+ f.write renderer2.result(binding)
+end

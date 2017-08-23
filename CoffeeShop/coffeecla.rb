@@ -1,6 +1,8 @@
 # encoding: utf-8
 #!/usr/bin/env ruby
 
+require 'securerandom'
+
 class Shop
 @@type = "Coffee"
 @@menu = {2.99=>"Latte",
@@ -32,29 +34,43 @@ class Shop
 end
 
 class Customer
-  def initialize(name, address, order, payment, payment_type, order_type)
-    @name, @address, @order, @payment, @payment_type, @order_type = name, addr, order, payment, pay_type, ord_type
+  def initialize(name, address, order_content, order_id, payment, payment_type, order_type)
+    @name, @address, @order_content, @order_id, @payment, @payment_type, @order_type = name, addr, order_content, order_id, payment, pay_type, ord_type
   end
 
   attr_accessor :name
   attr_accessor :address
-  attr_accessor :order
+  attr_accessor :order_content
+  attr_accessor :order_id
   attr_accessor :payment
   attr_accessor :payment_type
   attr_accessor :order_type
 
 end
 
-class Coffee
-  def initialize(order_id, type, size, extras)
-    @order_id, @type, @size, @extras = id, type, size, top
+class Drink
+  def initialize(type, size, extras)
+    @type, @size, @extras = type, size, top
   end
-    attr_accessor :id
     attr_accessor :size
     attr_accessor :type
     attr_accessor :top
 
+  def make
+      puts "1 #{size} #{type} made. Toppings/additions: #{extras}"
+  end
+
+  def ready(address, shop)
+    if address == shop.location
+      puts "Ready to be picked up to "
+    end
+
 end
+
+class Coffee < Drink
+  def initialize(variety, type, size, extras)
+    @variety = variety
+    super(type, size, extras)
 
 def convert_price(price, size)
   lsize = size.downcase
@@ -76,9 +92,67 @@ def check_valid_input?(str)
   end
 end
 
+class OrderMaker(name,
+                 address,
+                 order_content,
+                 order_id,
+                 payment,
+                 payment_type,
+                 order_type,
+                 type,
+                 size,
+                 extras,
+                 coffee)
+  def initialize(name,
+                 address,
+                 order_content,
+                 order_id,
+                 payment,
+                 payment_type,
+                 order_type,
+                 type,
+                 size,
+                 extras)
+    @name, @address, @order_content, @order_id, @payment,
+    @payment_type, @type, @size, @extras =
+    name, addr, order_content, order_id, payment, pay_type, type, size, extra
+  end
 
-def make_order(coffee_type, extras)
-  id = Coffee.new(coffee_type, extras)
+  cust = Customer.new(@name,
+               @address,
+               @order_content,
+               @order_id,
+              @payment,
+              @payment_type)
+  if coffee = true
+    order = Coffee.new('Columbian', type, size, extra)
+  else
+    order = Drink.new('Columbian', type, size, extra)
+
+
+
+
+
+
+  attr_accessor :name
+  attr_accessor :address
+  attr_accessor :order_content
+  attr_accessor :order_id
+  attr_accessor :payment
+  attr_accessor :payment_type
+  attr_accessor :order_type
+  attr_accessor :size
+  attr_accessor :type
+  attr_accessor :top
+
+
+
+
+def make_order(type, size, extras, name, payment, payment_type, address)
+  order_content = Coffee.new('Columbian', coffee_type, size, extras)
+  customer = Customer.new(name, address, order_content, )
+  # Here we would insert into some data base or storage system
+  return customer
 end
 
 def place_order()
@@ -118,7 +192,8 @@ Shop.get_menu.each do |price, item|
           addr = gets.chomp
           puts "Finally, we'll need some payment info. Could you please enter the following: card-number/expiration-date/card-holder-name/security-code"
           cardinfo = gets.chomp.split('/')
-          puts "Everything looks good. If the payment is successfull, you order will be ready for #{acquire_type} in a few minutes at the location #{addr}"
+          puts "Everything looks good. If the payment is successfull, you order will be ready for #{acquire_type} in a few minutes to the location #{addr}"
+          make_order()
         elsif acquire_type == 'pickup'
           addr = '221 North Street'
           puts "Finally, we'll need some payment info. Could you please enter the following: card-number/expiration-date/card-holder-name/security-code"
@@ -132,6 +207,21 @@ Shop.get_menu.each do |price, item|
 end
 
 def deliver_order(order_id)
+  r = Random.new()
+  time = r.rand(15...20)
+  systime = Time.new
+  hour = systime.hour % 12
+  min = systime.min
+  order_time = i-time if i < time else 60-time
+  order_arrival = i + time if i + time < 60 else time
+  start_min = order_time
+  end_min = order_time
+  if end_min == time
+    hrplu = hour + 1
+    final_t = "#{hrplu}:#{end_min}"
+  else
+    final_t = "#{hour}:#{end_min}"
+  puts "you ordered at #{hour}:#{start_min}, we delivered at #{final_t}"
 
 end
 
